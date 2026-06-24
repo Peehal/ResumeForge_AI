@@ -11,7 +11,7 @@ const Features = () => {
         <div className="flex items-center gap-2 text-sm text-indigo-600 bg-indigo-400/10 border border-indigo-200 rounded-full px-6 py-1.5">
 
             <Zap width={14}/>
-            <span>Responded to 99% applicants</span>
+            <span>Simple Process</span>
         </div>
 
         <Title title ='Build your resume' description ='Our Streamlined process helps you create a professional resume in minutes with intelligent AI - powered tools and features.' />
