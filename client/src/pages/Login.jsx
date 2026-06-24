@@ -1,12 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
-const Layout = () => {
+const Login = () => {
   return (
     <div>
-        <Outlet />
+        <h1>Login Page</h1>
     </div>
   )
 }
 
-export default Layout
+export default Login
