@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.svg';
 
 const Hero = () => {
 
@@ -20,7 +21,7 @@ const Hero = () => {
                 {/* Navbar */}
                 <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
                 
-                    <img src='favicon.ico' alt='logo' className='h-11 w-auto' />
+                    <img src={logo} alt='logo' className='h-11 w-auto' />
                     
 
                     <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
