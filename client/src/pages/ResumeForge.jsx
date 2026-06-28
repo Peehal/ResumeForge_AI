@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { dummyResumeData } from '../assets/assets'
-import { ArrowLeftIcon, Briefcase, FileText, FolderIcon, GraduationCap, Sparkles, User } from 'lucide-react';
+import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, FileText, FolderIcon, GraduationCap, Sparkles, User } from 'lucide-react';
+import PersonalInfoForm from '../components/PersonalInfoForm';
 
 const ResumeForge = () => {
   const { resumeId } = useParams();
@@ -62,9 +63,38 @@ const ResumeForge = () => {
                     {/* progress bar using activeSectionIndex */}
                     <hr className='absolute top-0 left-0 right-0 border-2 border-gray-200'/>
 
-                    <hr className='absolute top-0 left-0 h-1 bg-linear-to-r from-indigo-500 to-indigo-600 border-none transition-all duration-2000'  style={{width: `%{activeSectionIndex * 100 / (sections.length -1)}%`}}/>
+                    <hr className='absolute top-0 left-0 h-1 bg-linear-to-r from-indigo-500 to-indigo-600 border-none transition-all duration-2000'  style={{width: `${activeSectionIndex * 100 / (sections.length -1)}%`}}/>
 
-                    
+                    {/* Section navigation */}
+                     <div className='flex justify-between items-center mb-6 border-b border-gray-300 py-1'>
+                      
+                        <div></div>
+                        <div className='flex items-center'>
+                          {activeSectionIndex !== 0 && (
+                            <button onClick={() => setActiveSectionIndex((prevIndex) => Math.max(prevIndex -1, 0))}
+                            className='flex items-center gap-1 p-3 rounded-lg test-sm font-medium text-grat-600 hover:bg-gray-50 transition-all disabled:{activeSectionIndex === 0}'>
+                              <ChevronLeft className="size-4" /> Previous
+                            </button>
+                          )}
+
+                          <button onClick={() => setActiveSectionIndex((prevIndex) => Math.min(prevIndex + 1, sections.length -1))} className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${activeSectionIndex === sections.length - 1 && 'opacity-50'}`}
+                          disabled={activeSectionIndex === sections.length - 1 }>
+                            Next <ChevronRight className='size-4' />
+                          </button>
+                        </div>
+                     </div>
+
+                     <div>
+                      {/* Form content */}
+                      <div className='space-y-6'>
+                        {activeSection.id === 'personal' && (
+                          <PersonalInfoForm data={resumeData.personal_info} onChange={(data) => setResumeData(prev => ({...prev, personal_info:data}))} removeBackground={removeBackground}
+                          setRemoveBackground={setRemoveBackground}
+                          />
+                        )}
+
+                      </div>
+                     </div>
 
                 </div>
             </div>
