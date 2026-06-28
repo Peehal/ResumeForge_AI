@@ -38,6 +38,19 @@ const Dashboard = () => {
     navigate(`/app/builder/res123`);
   }
 
+  const editTitle = async (e) =>{
+    e.preventDefault();
+
+  }
+
+  const deleteResume = async (resumeId) =>{
+    const confirm = window.confirm('Are you sure you want to delete this Resume?')
+    if(confirm){
+      setAllREsumes(prev => prev.filter(resume => resume._id !== resumeId ))
+    }
+
+  }
+
   useEffect(() => {
     loadAllResumes();
   }, []);
@@ -99,9 +112,9 @@ const Dashboard = () => {
                 >
                   Updated on {new Date(resume.updatedAt).toLocaleDateString()}
                 </p>
-                <div className="absolute top-1 right-1 group-hover:flex items-center hidden">
-                  <TrashIcon className="size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors" />
-                  <PencilIcon className="size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors" />
+                <div onClick={(e) => {e.stopPropagation()}} className="absolute top-1 right-1 group-hover:flex items-center hidden">
+                  <TrashIcon onClick={() => deleteResume(resume._id)} className="size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors" />
+                  <PencilIcon onClick={() => {setEditResumeId(resume._id); setTilte(resume.title)}} className="size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors" />
                 </div>
               </button>
             );
@@ -205,6 +218,44 @@ const Dashboard = () => {
           </form>
         )}
 
+        {editResumeId && (
+          <form
+            
+            onSubmit={editTitle}
+            onClick={() => {
+              setEditResumeId('');
+            }}
+            className="fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center"
+          >
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              className="relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6"
+            >
+              <h2 className="text-xl font-bold mb-4">Edit Resume Title</h2>
+              <input
+                onChange={(e) => setTilte(e.target.value)}
+                value={title}
+                type="text"
+                placeholder="Enter resume title"
+                className="w-full px-4 py-2 mb-4 focus:border-indigo-600 ring-indigo-600"
+                required
+              />
+
+              <button className="w-full py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors">
+                Save Title
+              </button>
+              <XIcon
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                onClick={() => {
+                  setEditResumeId('');
+                  setTilte("");
+                }}
+              />
+            </div>
+          </form>
+        )}
 
       </div>
     </div>
