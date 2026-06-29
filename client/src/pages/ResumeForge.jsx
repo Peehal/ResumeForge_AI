@@ -49,13 +49,12 @@ const ResumeForge = () => {
 
   return (
     <div>
-        <div className='max-w-7xl mx-auto px-4 py-6'>
+        <div className='max-w-7xl mx-auto px-4 py-6 pb-8'>
           <Link to={'/app'} className='inline-flex gap-2 items-center text-slate-500 hover:text-slate-700 transition-all'>
               <ArrowLeftIcon className='size-4' /> Back to Dashborad
           </Link>
-        </div>
 
-        <div className='max-w-7xl mx-auot px-4 pb-8'>
+        <div className='mt-6'>
           <div className='grid lg:grid-cols-12 gap-8'>
             {/*  Left Panel - Form  */}
             <div className='relative lg:col-span-5 rounded-lg overflow-hidden'>
@@ -105,7 +104,7 @@ const ResumeForge = () => {
           </div>
 
         </div>
-
+        </div>
     </div>
   )
 }
