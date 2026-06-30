@@ -1,5 +1,6 @@
 import React from 'react'
-import { BriefcaseBusiness, Mail, MapPin, Phone, User, Globe } from 'lucide-react'
+// import { BriefcaseBusiness, Mail, MapPin, Phone, User, Linkedin, Globe } from 'lucide-react'
+import { BriefcaseBusiness, Mail, MapPin, Phone, User, Link2, Globe } from 'lucide-react'
 
 
 
@@ -14,7 +15,8 @@ const PersonalInfoForm = ({data, onChange, removeBackground, setRemoveBackground
     {key:"email", label:"Email Address", icon: Mail, type:"email", required:true}, 
     {key:"phone", label:"Phone Number", icon: Phone, type:"tel", required:true}, 
     {key:"location", label:"Location", icon: MapPin, type:"text", required:true}, 
-    {key:"profession", label:"Profession", icon: BriefcaseBusiness, type:"text", required:true},
+    {key:"profession", label:"Profession", icon: BriefcaseBusiness, type:"text", required:true}, 
+    {key:"linkedin", label:"LinkedIn Profile", icon: Link2, type:"text", required:true},
     {key:"website", label:"Personal Website", icon: Globe, type:"url", required:true}, 
   ]
 
@@ -45,7 +47,7 @@ const PersonalInfoForm = ({data, onChange, removeBackground, setRemoveBackground
             </div>
           )}
       </div>
-      
+
       {fields.map((field) =>{
         const Icon = field.icon;
         return(
@@ -61,9 +63,12 @@ const PersonalInfoForm = ({data, onChange, removeBackground, setRemoveBackground
             onChange={(e) => handleChange(field.key, e.target.value)}
             className='mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors text-sm'
             placeholder={`Enter your ${field.label.toLowerCase()}`} required={field.required}  />
+
           </div>
         )
       })}
+        
+
     </div>
   )
 }
