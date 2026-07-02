@@ -29,7 +29,7 @@ const TemplateSelector = ({selectedTemplate, onChange}) => {
     ]
 
   return (
-    <div className='relative'>
+    <div className='relative' onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setIsOpen(false) }} tabIndex={-1}>
         <button onClick={() => setIsOpen(!isOpen)} className='flex items-center gap-1 text-sm text-blue-600 bg-linear-to-b from-blue-50 to-blue-100 ring-blue-300 hover:ring transition-all px-3 py-2 rounded-lg'>
             <Layout size={14} /> <span className='max-sm:hidden'>
                 Template
