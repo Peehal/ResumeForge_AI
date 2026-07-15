@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import User from "../models/User"
+import User from "../models/User.js"
 import jwt from "jsonwebtoken"
 
 
@@ -56,6 +56,32 @@ export const loginUser = async (req, res) => {
 
         if(!user.comparepassword(password)){
             return res.status(400).json({message:`invalid email or password`})
+        }
+
+        // return success message
+        const token = generateToken(user._id);
+        user.password=undefined;
+
+        return res.status(201).json({message:'Login successful', token, user})
+
+    } catch (error) {
+        return res.status(400).json({message: error.message})
+    }
+}
+
+
+// controller to get user by ID
+// GET: /api/users/data
+
+export const getUserById = async (req, res) => {
+    try {
+        // userId will come through middleware
+        const userId = req.userId;
+        
+        const user = await User.findById(userId)
+
+        if(!user){
+            return res.status(400).json({message:`User not found`})
         }
 
         // return success message
