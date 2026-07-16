@@ -47,7 +47,7 @@ export const getResumeById = async (req, res) => {
         const userId = req.userId;
         const { resumeId } = req.params;
 
-        await Resume.findOneAndDelete({ userId, _id: resumeId })
+        const resume = await Resume.findOne({ userId, _id: resumeId })
 
         if (!resume) {
             return res.status(404).json({ message: "Resume not found" })
@@ -92,7 +92,12 @@ export const updateResume = async (req, res) => {
         const { resumeId, resumeData, removeBackground } = req.body
         const image = req.file;
 
-        let resumeDataCopy = JSON.parse(JSON.stringify(resumeData));
+        let resumeDataCopy;
+        if(typeof resumeData === 'string'){
+            resumeDataCopy = await JSON.parse(resumeData)
+        }else{
+            resumeDataCopy = structuredClone(resumeData)
+        }
 
         if (image) {
 
@@ -112,7 +117,7 @@ export const updateResume = async (req, res) => {
             resumeDataCopy.personal_info.image = response.url
         }
 
-        const resume = await Resume.findByIdAndUpdate({ userId, _id: resumeId },
+        const resume = await Resume.findOneAndUpdate({ userId, _id: resumeId },
             resumeDataCopy, { new: true })
 
         return res.status(200).json({ message: 'Saved successfully', resume })

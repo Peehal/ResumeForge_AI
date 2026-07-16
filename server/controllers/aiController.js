@@ -116,7 +116,7 @@ export const uploadResume = async (req, res) => {
             project: [{
                 name: {type: String, default: '' },
                 type: {type: String, default: '' },
-                description: {type: String, default: '' },
+                description: [{ type: String }],
             }]
         }
         `

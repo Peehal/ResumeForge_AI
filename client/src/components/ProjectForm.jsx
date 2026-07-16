@@ -6,7 +6,7 @@ const ProjectForm = ({ data, onChange }) => {
     const newProject = {
       name: "",
       type: "",
-      description: "",
+      description: [],
     };
     onChange([...data, newProject]);
   };
@@ -19,6 +19,32 @@ const ProjectForm = ({ data, onChange }) => {
   const updateProject = (index, field, value) => {
     const updated = [...data];
     updated[index] = { ...updated[index], [field]: value };
+    onChange(updated);
+  };
+
+  const addPoint = (projectIndex) => {
+    const updated = [...data];
+    updated[projectIndex] = {
+      ...updated[projectIndex],
+      description: [...(updated[projectIndex].description || []), ""],
+    };
+    onChange(updated);
+  };
+
+  const removePoint = (projectIndex, pointIndex) => {
+    const updated = [...data];
+    updated[projectIndex] = {
+      ...updated[projectIndex],
+      description: updated[projectIndex].description.filter((_, i) => i !== pointIndex),
+    };
+    onChange(updated);
+  };
+
+  const updatePoint = (projectIndex, pointIndex, value) => {
+    const updated = [...data];
+    const points = [...updated[projectIndex].description];
+    points[pointIndex] = value;
+    updated[projectIndex] = { ...updated[projectIndex], description: points };
     onChange(updated);
   };
 
@@ -75,15 +101,36 @@ const ProjectForm = ({ data, onChange }) => {
                   className="px-3 py-2 text-sm  rounded-lg"
                 />
 
-                <textarea rows={4}
-                  value={project.description || ""}
-                  onChange={(e) =>
-                    updateProject(index, "description", e.target.value)
-                  }
-                  type="text"
-                  placeholder="Project description"
-                  className="w-full px-3 py-2 text-sm rounded-lg resize-none"
-                />
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium text-gray-700">Description Points</label>
+                    <button
+                      onClick={() => addPoint(index)}
+                      className="flex items-center gap-1 px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200 transition-colors"
+                    >
+                      <Plus className="size-3" />
+                      Add Point
+                    </button>
+                  </div>
+
+                  {(project.description || []).map((point, pointIndex) => (
+                    <div key={pointIndex} className="flex items-center gap-2">
+                      <input
+                        value={point}
+                        onChange={(e) => updatePoint(index, pointIndex, e.target.value)}
+                        type="text"
+                        placeholder="Describe an achievement or responsibility..."
+                        className="flex-1 px-3 py-2 text-sm rounded-lg"
+                      />
+                      <button
+                        onClick={() => removePoint(index, pointIndex)}
+                        className="text-red-500 hover:text-red-700 transition-colors"
+                      >
+                        <Trash2 className="size-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
 
               </div>
             </div>

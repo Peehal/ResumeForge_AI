@@ -111,10 +111,12 @@ const ModernTemplate = ({ data, accentColor }) => {
 											<h3 className="text-lg font-medium text-gray-900">{p.name}</h3>
 										</div>
 									</div>
-									{p.description && (
-										<div className="text-gray-700 leading-relaxed text-sm mt-3">
-											{p.description}
-										</div>
+									{p.description && p.description.length > 0 && (
+										<ul className="list-disc list-inside text-gray-700 leading-relaxed text-sm mt-3 space-y-1">
+											{p.description.map((point, i) => (
+												<li key={i}>{point}</li>
+											))}
+										</ul>
 									)}
 								</div>
 							))}

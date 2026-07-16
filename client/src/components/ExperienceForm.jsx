@@ -1,7 +1,31 @@
 import { Briefcase, Plus, Trash2, Sparkles } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import api from "../configs/api";
 
 const ExperienceForm = ({ data, onChange }) => {
+  const { token } = useSelector((state) => state.auth);
+  const [enhancingIndex, setEnhancingIndex] = useState(null);
+
+  const enhanceDescription = async (index) => {
+    const description = data[index].description;
+    if (!description) {
+      return toast.error("Please write a description first");
+    }
+    setEnhancingIndex(index);
+    try {
+      const { data: response } = await api.post(
+        "/api/ai/enhance-job-desc",
+        { userContent: description },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      updateExperience(index, "description", response.enhancedContent);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    }
+    setEnhancingIndex(null);
+  };
 
   const addExperience = () => {
     const newExperience = {
@@ -110,9 +134,13 @@ const ExperienceForm = ({ data, onChange }) => {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="text-sm font-medium text-gray-700">Job Description</label>
-                  <button className="flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors">
+                  <button
+                    onClick={() => enhanceDescription(index)}
+                    disabled={enhancingIndex === index}
+                    className="flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50"
+                  >
                     <Sparkles className="w-3 h-3" />
-                    Enhance with AI
+                    {enhancingIndex === index ? "Enhancing..." : "Enhance with AI"}
                   </button>
                 </div>
                 <textarea

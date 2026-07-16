@@ -104,7 +104,13 @@ const ClassicTemplate = ({ data, accentColor }) => {
                             <div key={index} className="flex justify-between items-start border-l-3 border-gray-300 pl-6">
                                 <div>
                                     <li className="font-semibold text-gray-800 ">{proj.name}</li>
-                                    <p className="text-gray-600">{proj.description}</p>
+                                    {proj.description && proj.description.length > 0 && (
+                                        <ul className="list-disc list-inside text-gray-600 space-y-1">
+                                            {proj.description.map((point, i) => (
+                                                <li key={i}>{point}</li>
+                                            ))}
+                                        </ul>
+                                    )}
                                 </div>
                             </div>
                         ))}
